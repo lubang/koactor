@@ -4,21 +4,17 @@ plugins {
     kotlin("jvm")
 }
 
-repositories {
-    mavenCentral()
-}
-
 val junitVersion = "5.3.2"
 
 dependencies {
-    compile(kotlin("stdlib-jdk8"))
-    compile("org.jetbrains.kotlin:kotlin-reflect:1.3.11")
+    implementation(kotlin("stdlib-jdk8"))
+    implementation("org.jetbrains.kotlin:kotlin-reflect:1.3.11")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.0.1")
-    compile("ch.qos.logback:logback-classic:1.2.3")
+    implementation("ch.qos.logback:logback-classic:1.2.3")
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:$junitVersion")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:$junitVersion")
-    testCompile("com.nhaarman.mockitokotlin2:mockito-kotlin:2.0.0")
+    testImplementation("com.nhaarman.mockitokotlin2:mockito-kotlin:2.0.0")
 }
 
 tasks.withType<KotlinCompile> {
