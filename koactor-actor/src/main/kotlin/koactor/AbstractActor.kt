@@ -25,7 +25,7 @@ abstract class AbstractActor<T> : Actor<T> {
         mailbox.sendBlocking(msg)
     }
 
-    override fun stop() {
+    protected fun stop() {
         mailbox.close()
     }
 
