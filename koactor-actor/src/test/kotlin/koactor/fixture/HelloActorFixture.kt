@@ -2,11 +2,15 @@ package koactor.fixture
 
 import koactor.AbstractActor
 import koactor.Actor
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 
 class HelloActor(
     private val name: String,
     private val count: Int
 ) : AbstractActor<Message>() {
+
+    private val log: Logger = LoggerFactory.getLogger(HelloActor::class.qualifiedName)
 
     override fun receive(msg: Message) {
         when (msg) {

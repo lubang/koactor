@@ -6,17 +6,15 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.SendChannel
 import kotlinx.coroutines.channels.actor
 import kotlinx.coroutines.channels.sendBlocking
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
 
 @Suppress("EXPERIMENTAL_API_USAGE")
 abstract class AbstractActor<T> : Actor<T> {
-    protected val log: Logger = LoggerFactory.getLogger(this.javaClass.canonicalName)
 
-    private val scope = CoroutineScope(Dispatchers.Default + Job())
-    private val mailbox = createMailbox()
+    private var scope = createScope()
 
-    abstract fun receive(msg: T)
+    private var mailbox = createMailbox()
+
+    protected abstract fun receive(msg: T)
 
     override fun tell(msg: T) {
         if (mailbox.isClosedForSend) {
@@ -28,6 +26,8 @@ abstract class AbstractActor<T> : Actor<T> {
     protected fun stop() {
         mailbox.close()
     }
+
+    private fun createScope() = CoroutineScope(Dispatchers.Default + Job())
 
     private fun createMailbox(): SendChannel<T> {
         return scope.actor(capacity = Int.MAX_VALUE) {

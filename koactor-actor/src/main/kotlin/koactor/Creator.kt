@@ -11,6 +11,7 @@ class Creator(
 ) {
 
     private val constructor: KFunction<Any>
+
     private val args: Map<KParameter, Any?>
 
     init {
@@ -28,15 +29,9 @@ class Creator(
             return false
         }
 
-        (0..(parameters.size - 1)).forEach { index ->
-            val arg = parameters[index].javaClass.kotlin
-            val constructorArg = constructor.valueParameters[index].type.classifier
-            if (arg != constructorArg) {
-                return false
-            }
-        }
-
-        return true
+        val left = parameters.map { it.javaClass.kotlin }
+        val right = constructor.valueParameters.map { it.type.classifier }
+        return left == right
     }
 
     fun <M> newActor(): Actor<M> {
