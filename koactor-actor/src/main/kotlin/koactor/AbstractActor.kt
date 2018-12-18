@@ -8,7 +8,9 @@ import kotlinx.coroutines.channels.actor
 import kotlinx.coroutines.channels.sendBlocking
 
 @Suppress("EXPERIMENTAL_API_USAGE")
-abstract class AbstractActor<T> : Actor<T> {
+abstract class AbstractActor<T>(
+    private val capacity: Int = Int.MAX_VALUE
+) : Actor<T> {
 
     private var scope = createScope()
 
@@ -30,7 +32,7 @@ abstract class AbstractActor<T> : Actor<T> {
     private fun createScope() = CoroutineScope(Dispatchers.Default + Job())
 
     private fun createMailbox(): SendChannel<T> {
-        return scope.actor(capacity = Int.MAX_VALUE) {
+        return scope.actor(capacity = capacity) {
             for (msg in channel) {
                 receive(msg)
             }

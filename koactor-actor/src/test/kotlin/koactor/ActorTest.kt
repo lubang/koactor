@@ -15,8 +15,7 @@ internal class ActorTest {
 
     @Test
     fun `tell a message should handle a message`() {
-        val context = ActorContext()
-        val helloActor = context.spawn<Message>(Creator(HelloActor::class, "Actor", 3))
+        val helloActor = HelloActor("Actor", 3)
         val replyTo = mock<Actor<Reply>>()
 
         helloActor.tell(Hello("hello", replyTo))
@@ -27,8 +26,7 @@ internal class ActorTest {
 
     @Test
     fun `tell a stop should close the mailbox to ignore messages`() {
-        val context = ActorContext()
-        val helloActor = context.spawn<Message>(Creator(HelloActor::class, "Actor", 1))
+        val helloActor = HelloActor("Actor", 3)
         val replyTo = mock<Actor<Reply>>()
 
         helloActor.tell(Hello("say 1", replyTo))
