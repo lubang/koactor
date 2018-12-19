@@ -8,7 +8,7 @@ val junitVersion = "5.3.2"
 
 dependencies {
     implementation(kotlin("stdlib-jdk8"))
-    implementation("org.jetbrains.kotlin:kotlin-reflect:1.3.11")
+    implementation(kotlin("reflect"))
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.0.1")
     implementation("ch.qos.logback:logback-classic:1.2.3")
 

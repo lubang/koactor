@@ -6,9 +6,9 @@ import com.nhaarman.mockitokotlin2.timeout
 import com.nhaarman.mockitokotlin2.verify
 import koactor.fixture.*
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
 
 @DisplayName("An Actor")
 internal class ActorTest {
@@ -35,7 +35,7 @@ internal class ActorTest {
 
         Thread.sleep(100)
 
-        val exception = assertThrows<IllegalStateException> {
+        val exception = assertThrows(IllegalStateException::class.java) {
             helloActor.tell(Hello("say 3", replyTo))
             helloActor.tell(Hello("say 4", replyTo))
         }

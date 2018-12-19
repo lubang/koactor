@@ -8,9 +8,7 @@ plugins {
 allprojects {
     group = "koactor"
     version = "1.0-SNAPSHOT"
-}
 
-subprojects {
     repositories {
         jcenter()
         mavenCentral()
