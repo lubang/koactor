@@ -14,7 +14,7 @@ import org.junit.jupiter.api.assertThrows
 internal class ActorTest {
 
     @Test
-    fun `tell a message should handle a message`() {
+    fun `should handle a message`() {
         val helloActor = HelloActor("Actor", 3)
         val replyTo = mock<Actor<Reply>>()
 
@@ -25,7 +25,7 @@ internal class ActorTest {
     }
 
     @Test
-    fun `tell a stop should close the mailbox to ignore messages`() {
+    fun `should close the mailbox to ignore messages`() {
         val helloActor = HelloActor("Actor", 3)
         val replyTo = mock<Actor<Reply>>()
 
@@ -42,5 +42,16 @@ internal class ActorTest {
 
         verify(replyTo, timeout(500).times(2)).tell(any())
         assertEquals("Actor was closed", exception.message)
+    }
+
+    @Test
+    fun `should bypass a message to it's child actor`() {
+        val helloActor = HelloActor("Actor", 3)
+        val replyTo = mock<Actor<Reply>>()
+
+        helloActor.tell(CreateChild)
+        helloActor.tell(HelloToChild(replyTo))
+
+        verify(replyTo, timeout(500).times(1)).tell(any())
     }
 }

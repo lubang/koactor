@@ -12,6 +12,8 @@ class HelloActor(
 
     private val log: Logger = LoggerFactory.getLogger(HelloActor::class.qualifiedName)
 
+    private var child: Actor<Message>? = null
+
     override fun receive(msg: Message) {
         when (msg) {
             is Hello -> msg.replyTo.tell(Reply("yo"))
@@ -21,6 +23,8 @@ class HelloActor(
                 }
             }
             is Stop -> stop()
+            is CreateChild -> child = HelloChildActor()
+            is HelloToChild -> child?.tell(msg)
         }
     }
 }
@@ -34,3 +38,16 @@ data class Hello(val msg: String, val replyTo: Actor<Reply>) : Message
 data class Say(val msg: String) : Message
 
 object Stop : Message
+
+object CreateChild : Message
+
+data class HelloToChild(val replyTo: Actor<Reply>) : Message
+
+
+class HelloChildActor : AbstractActor<Message>() {
+    override fun receive(msg: Message) {
+        when (msg) {
+            is HelloToChild -> msg.replyTo.tell(Reply("Child say yo"))
+        }
+    }
+}
